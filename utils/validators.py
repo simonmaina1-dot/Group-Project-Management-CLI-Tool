@@ -1,4 +1,9 @@
-"""Validators for the CLI Library Management System."""
+"""Validators for the CLI Library Management System.
+
+This module provides validation functions for various data types used throughout
+the library management system, including emails, phone numbers, ISBNs, usernames,
+passwords, roles, and other common fields.
+"""
 
 import re
 from typing import Optional
@@ -14,6 +19,12 @@ def validate_email(email: str) -> bool:
     Returns:
         True if valid, False otherwise.
     """
+    # Email pattern breakdown:
+    # [a-zA-Z0-9._%+-]+ = local part (letters, numbers, dots, underscores, percent, plus, hyphen)
+    # @ = literal @ symbol
+    # [a-zA-Z0-9.-]+ = domain name (letters, numbers, dots, hyphens)
+    # \. = literal dot
+    # [a-zA-Z]{2,}$ = top-level domain (at least 2 letters)
     pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     return bool(re.match(pattern, email))
 
@@ -29,7 +40,9 @@ def validate_phone(phone: str) -> bool:
         True if valid, False otherwise.
     """
     # Allow digits, spaces, dashes, and parentheses
+    # This pattern accommodates various phone number formats (e.g., +1-234-567-8900, (234) 567-8900)
     pattern = r'^[\d\s\-\(\)]+$'
+    # Ensure phone number has at least 10 digits to be valid
     return bool(re.match(pattern, phone)) and len(phone) >= 10
 
 
@@ -43,13 +56,15 @@ def validate_isbn(isbn: str) -> bool:
     Returns:
         True if valid, False otherwise.
     """
-    # Remove hyphens and spaces
+    # Remove hyphens and spaces to get clean ISBN
     isbn = isbn.replace('-', '').replace(' ', '')
     
     # Check for 10 or 13 digits
     if len(isbn) == 10:
+        # First 9 characters must be digits, 10th can be digit or 'X' (representing 10)
         return isbn[:9].isdigit() and (isbn[9].isdigit() or isbn[9] == 'X')
     elif len(isbn) == 13:
+        # All 13 characters must be digits
         return isbn.isdigit()
     return False
 
@@ -64,7 +79,10 @@ def validate_username(username: str) -> bool:
     Returns:
         True if valid, False otherwise.
     """
-    # Username should be 3-20 characters, alphanumeric and underscores
+    # Username rules:
+    # ^ = start of string
+    # [a-zA-Z0-9_]{3,20} = 3 to 20 characters, alphanumeric and underscores only
+    # $ = end of string
     pattern = r'^[a-zA-Z0-9_]{3,20}$'
     return bool(re.match(pattern, username))
 
