@@ -1,2 +1,15 @@
-[]
-
+[
+    {
+        "user_id": 1,
+        "username": "simon",
+        "password": "b42010eb4b0b03c87462ceca2981ccc24af1c2ad6fa8ee303ffac093be2c7cee",
+        "role": "student",
+        "email": "",
+        "name": "simon",
+        "borrowed_books": [],
+        "borrowing_history": [],
+        "is_active": true,
+        "last_login": null,
+        "created_at": "2026-03-02T17:48:17.843722"
+    }
+]
