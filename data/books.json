@@ -37,6 +37,23 @@
         "isbn": "9780435910181",
         "total_copies": 3,
         "available_copies": 3
+    },
+    {
+        "title": "I Will Marry When I Want",
+        "author": "Ngugi wa Thiong'o",
+        "isbn": "9780435905545",
+        "total_copies": 2,
+        "available_copies": 2,
+        "borrowed_copies": 0,
+        "borrowed_by": []
+    },
+    {
+        "title": "The Devil on the Cross",
+        "author": "Ngugi wa Thiong'o",
+        "isbn": "9780435905569",
+        "total_copies": 3,
+        "available_copies": 3,
+        "borrowed_copies": 0,
+        "borrowed_by": []
     }
 ]
-

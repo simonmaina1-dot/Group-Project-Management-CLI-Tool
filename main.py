@@ -38,18 +38,38 @@ def print_info(message):
 
 
 def display_books(books, title="Book List"):
-    """Display books in a simple format."""
+    """Display books in a table format."""
     if not books:
         print_info("No books found.")
         return
     
-    print(f"\n--- {title} ---")
-    for book in books:
-        print(f"Title: {book.get('title', 'N/A')}")
-        print(f"  Author: {book.get('author', 'N/A')}")
-        print(f"  ISBN: {book.get('isbn', 'N/A')}")
-        print(f"  Available: {book.get('available_copies', 0)}")
-        print()
+    # Define column widths
+    col_no = 4
+    col_title = 35
+    col_author = 25
+    col_isbn = 15
+    col_available = 10
+    
+    # Print title
+    print(f"\n{title}")
+    print("=" * (col_no + col_title + col_author + col_isbn + col_available + 8))
+    
+    # Print header
+    print(f"{'#':<{col_no}} | {'Title':<{col_title}} | {'Author':<{col_author}} | {'ISBN':<{col_isbn}} | {'Available':<{col_available}}")
+    print("-" * (col_no + col_title + col_author + col_isbn + col_available + 8))
+    
+    # Print each book row
+    for idx, book in enumerate(books, 1):
+        title = book.get('title', 'N/A')[:col_title-1]
+        author = book.get('author', 'N/A')[:col_author-1]
+        isbn = book.get('isbn', 'N/A')[:col_isbn-1]
+        available = book.get('available_copies', 0)
+        
+        print(f"{idx:<{col_no}} | {title:<{col_title}} | {author:<{col_author}} | {isbn:<{col_isbn}} | {available:<{col_available}}")
+    
+    # Print footer
+    print("=" * (col_no + col_title + col_author + col_isbn + col_available + 8))
+    print(f"Total books: {len(books)}")
 
 
 def handle_register(args):
