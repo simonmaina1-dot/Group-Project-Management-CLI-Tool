@@ -1,2 +1,42 @@
-[]
+[
+    {
+        "title": "Things Fall Apart",
+        "author": "Chinua Achebe",
+        "isbn": "9780435905255",
+        "total_copies": 5,
+        "available_copies": 3,
+        "borrowed_copies": 0,
+        "borrowed_by": [],
+        "is_available": true,
+        "is_borrowed": false
+    },
+    {
+        "title": "Half of a Yellow Sun",
+        "author": "Chimamanda Ngozi Adichie",
+        "isbn": "9780007200283",
+        "total_copies": 4,
+        "available_copies": 2
+    },
+    {
+        "title": "The River Between",
+        "author": "Ngugi wa Thiong'o",
+        "isbn": "9780435905484",
+        "total_copies": 3,
+        "available_copies": 1
+    },
+    {
+        "title": "Nervous Conditions",
+        "author": "Tsitsi Dangarembga",
+        "isbn": "9780954702335",
+        "total_copies": 2,
+        "available_copies": 1
+    },
+    {
+        "title": "So Long a Letter",
+        "author": "Mariama Ba",
+        "isbn": "9780435910181",
+        "total_copies": 3,
+        "available_copies": 3
+    }
+]
 

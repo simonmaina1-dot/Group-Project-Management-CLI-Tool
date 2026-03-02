@@ -1,2 +1,51 @@
-[]
+[
+    {
+        "username": "admin1",
+        "password": "REPLACE_WITH_HASH_OF_lib2026!",
+        "role": "admin"
+    },
+    {
+        "username": "librarian1",
+        "password": "REPLACE_WITH_HASH_OF_lib2026!",
+        "role": "librarian"
+    },
+    {
+        "username": "simon",
+        "password": "REPLACE_WITH_HASH_OF_lib2026!",
+        "role": "member"
+    },
+    {
+        "username": "aisha",
+        "password": "REPLACE_WITH_HASH_OF_lib2026!",
+        "role": "member"
+    },
+    {
+        "username": "kwame",
+        "password": "REPLACE_WITH_HASH_OF_lib2026!",
+        "role": "member"
+    },
+    {
+        "username": "simon",
+        "password": "b42010eb4b0b03c87462ceca2981ccc24af1c2ad6fa8ee303ffac093be2c7cee",
+        "role": "admin"
+    },
+    {
+        "username": "simon",
+        "password": "b42010eb4b0b03c87462ceca2981ccc24af1c2ad6fa8ee303ffac093be2c7cee",
+        "role": "student"
+    },
+    {
+        "user_id": 1,
+        "username": "testuser",
+        "password": "7e6e0c3079a08c5cc6036789b57e951f65f82383913ba1a49ae992544f1b4b6e",
+        "role": "student",
+        "email": "",
+        "name": "testuser",
+        "borrowed_books": [],
+        "borrowing_history": [],
+        "is_active": true,
+        "last_login": null,
+        "created_at": "2026-02-28T20:54:53.071387"
+    }
+]
 
