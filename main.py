@@ -52,12 +52,6 @@ def print_warning(message):
     print(f"WARNING: {message}")
 
 
-def get_current_user():
-    """Get the current logged in user."""
-    from services.auth_service import get_current_user as auth_get_current_user
-    return auth_get_current_user()
-
-
 def display_books(books, title="Book List"):
     """Display books in a table format."""
     if not books:
@@ -133,11 +127,12 @@ def display_borrow_records(records, title="Borrow Records"):
     col_user = 15
     col_borrow = 12
     col_due = 12
-    col_status = 10
+    col_status = 12
     
     print(f"\n{title}")
     print("=" * (col_book + col_user + col_borrow + col_due + col_status + 8))
     
+    # Note: return_date in borrow records is the due date (not actual return date)
     print(f"{'Book Title':<{col_book}} | {'User':<{col_user}} | {'Borrowed':<{col_borrow}} | {'Due Date':<{col_due}} | {'Status':<{col_status}}")
     print("-" * (col_book + col_user + col_borrow + col_due + col_status + 8))
     
@@ -145,7 +140,7 @@ def display_borrow_records(records, title="Borrow Records"):
         book_title = record.get('book_title', 'N/A')[:col_book-1]
         username = record.get('user_name', 'N/A')[:col_user-1]
         borrow_date = record.get('borrow_date', 'N/A')[:col_borrow-1]
-        due_date = record.get('return_date', 'N/A')[:col_due-1]
+        due_date = record.get('return_date', 'N/A')[:col_due-1]  # This is actually the due date
         status = record.get('status', 'N/A')[:col_status-1]
         
         print(f"{book_title:<{col_book}} | {username:<{col_user}} | {borrow_date:<{col_borrow}} | {due_date:<{col_due}} | {status:<{col_status}}")
@@ -258,7 +253,12 @@ def handle_borrow_book(args):
     if current_user.get('role') == 'student':
         username = str(current_user.get('username', ''))
     else:
-        username = str(getattr(args, 'username', None) or current_user.get('username') or '')
+        # Get username from args or current user, ensure it's not empty string
+        username_arg = getattr(args, 'username', None)
+        if username_arg:
+            username = str(username_arg)
+        else:
+            username = str(current_user.get('username', ''))
     
     if not username:
         print_error("Username is required.")
@@ -288,7 +288,12 @@ def handle_return_book(args):
     if current_user.get('role') == 'student':
         username = str(current_user.get('username', ''))
     else:
-        username = str(getattr(args, 'username', None) or current_user.get('username') or '')
+        # Get username from args or current user, ensure it's not empty string
+        username_arg = getattr(args, 'username', None)
+        if username_arg:
+            username = str(username_arg)
+        else:
+            username = str(current_user.get('username', ''))
     
     if not username:
         print_error("Username is required.")
@@ -320,7 +325,10 @@ def handle_my_borrows(args):
         return
     
     books = get_borrowed_books(username, current_user)
-    display_books(books, f"Books Borrowed by {username}")
+    if books:
+        display_books(books, f"Books Borrowed by {username}")
+    else:
+        print_info(f"You have not borrowed any books.")
 
 
 def handle_all_borrows(args):
@@ -368,7 +376,7 @@ def handle_extend_borrow(args):
         return
     
     try:
-        days = int(args.days) if hasattr(args, 'days') else 7
+        days = int(args.days) if hasattr(args, 'days') and args.days else 7
     except ValueError:
         days = 7
     

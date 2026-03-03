@@ -92,7 +92,7 @@
         "borrowed_books": [],
         "borrowing_history": [],
         "is_active": true,
-        "last_login": "2026-03-03T18:13:47.853180",
+        "last_login": "2026-03-03T19:37:22.724627",
         "created_at": "2026-03-03T18:13:03.391270"
     },
     {
@@ -120,5 +120,18 @@
         "is_active": true,
         "last_login": "2026-03-03T18:14:18.900511",
         "created_at": "2026-03-03T18:13:10.987483"
+    },
+    {
+        "user_id": 1,
+        "username": "testuser123",
+        "password": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
+        "role": "student",
+        "email": "",
+        "name": "testuser123",
+        "borrowed_books": [],
+        "borrowing_history": [],
+        "is_active": true,
+        "last_login": null,
+        "created_at": "2026-03-03T19:37:05.416565"
     }
 ]

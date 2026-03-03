@@ -316,6 +316,12 @@ def borrow_book(username: str, isbn: str, current_user: Optional[Dict] = None) -
 
     for book in books:
         if book.get("isbn") == isbn:
+            # Check if user already has this book borrowed
+            borrowed_by = book.get("borrowed_by", [])
+            for record in borrowed_by:
+                if record.get('user') == username:
+                    return {'success': False, 'message': 'You have already borrowed this book.'}
+            
             available = book.get("available_copies", 0)
             
             if available > 0:
@@ -410,6 +416,18 @@ def return_book(username: str, isbn: str, current_user: Optional[Dict] = None) -
                 book['available_copies'] = book.get('available_copies', 0) + 1
                 book['borrowed_copies'] = max(0, book.get('borrowed_copies', 1) - 1)
                 save_data(BOOK_FILE, books)
+                
+                # Also update the borrow record status to 'returned'
+                records = load_data(BORROW_FILE)
+                if isinstance(records, list):
+                    for record in records:
+                        if record.get('user_name') == username and record.get('isbn') == isbn:
+                            if record.get('status') == 'active':
+                                record['status'] = 'returned'
+                                record['actual_return_date'] = datetime.now().isoformat()
+                                break
+                    save_data(BORROW_FILE, records)
+                
                 return {'success': True, 'message': 'Book returned successfully'}
             else:
                 return {'success': False, 'message': 'User did not borrow this book'}

@@ -66,5 +66,27 @@
         "borrowed_by": [],
         "added_by": "admin",
         "added_at": "2026-03-03T18:13:47.853913"
+    },
+    {
+        "title": "New Book",
+        "author": "Author",
+        "isbn": "1234567899",
+        "total_copies": 2,
+        "available_copies": 2,
+        "borrowed_copies": 0,
+        "borrowed_by": [],
+        "added_by": "admin",
+        "added_at": "2026-03-03T18:49:58.816494"
+    },
+    {
+        "title": "New Test Book",
+        "author": "Test Author",
+        "isbn": "9999999999",
+        "total_copies": 2,
+        "available_copies": 2,
+        "borrowed_copies": 0,
+        "borrowed_by": [],
+        "added_by": "admin",
+        "added_at": "2026-03-03T18:54:39.613961"
     }
 ]

@@ -23,5 +23,21 @@
         "borrow_date": "2026-02-28T18:32:28.046358",
         "return_date": "2026-03-14T18:32:28.046358",
         "isbn": "9780435905484"
+    },
+    {
+        "book_title": "New Test Book",
+        "user_name": "student",
+        "isbn": "9999999999",
+        "borrow_date": "2026-03-03T18:54:39.615064",
+        "return_date": "2026-03-17T18:54:39.615064",
+        "status": "active"
+    },
+    {
+        "book_title": "Python Basics",
+        "user_name": "admin",
+        "isbn": "9780134685991",
+        "borrow_date": "2026-03-03T19:37:22.725665",
+        "return_date": "2026-03-17T19:37:22.725665",
+        "status": "active"
     }
 ]
