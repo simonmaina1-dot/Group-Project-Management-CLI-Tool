@@ -1,31 +1,22 @@
-# TODO List - CLI Library Management System
+# TODO: Authentication and Role-Based Access Control Implementation
 
-## Phase 1: Core Models & Utilities
-- [x] Create `models/base_model.py` - Base class for all models
-- [x] Create `models/user.py` - User model with roles
-- [x] Create `models/book.py` - Book model
-- [x] Create `models/borrow_record.py` - Borrow record model
+## Phase 1: Authentication System
+- [x] 1.1 Update utils/decorators.py with enhanced role-based decorators
+- [x] 1.2 Update services/auth_service.py with session management
+- [x] 1.3 Add require_login, require_role decorators
 
-## Phase 2: Utilities
-- [ ] Create `utils/file_handler.py` - JSON file read/write operations
-- [ ] Create `utils/validators.py` - Input validation functions
-- [ ] Create `utils/decorators.py` - Authentication and role decorators
+## Phase 2: Service Layer Updates
+- [x] 2.1 Update services/book_service.py with role checks (admin only for add/delete)
+- [x] 2.2 Update services/borrow_service.py with librarian-only functions
 
-## Phase 3: Services (Business Logic)
-- [ ] Create `services/auth_service.py` - Registration, login, logout, password hashing
-- [ ] Create `services/user_service.py` - User management (CRUD)
-- [ ] Create `services/book_service.py` - Book management (CRUD)
-- [ ] Create `services/borrow_service.py` - Borrowing and returning logic
+## Phase 3: CLI Updates
+- [x] 3.1 Update main.py with login requirements
+- [x] 3.2 Implement role-based menu options
+- [x] 3.3 Add access denied messages
 
-## Phase 4: Main Application
-- [ ] Create `main.py` - CLI interface with menu system
-- [ ] Implement role-based menu navigation
+## Phase 4: Testing
+- [x] 4.1 Test registration and login
+- [x] 4.2 Test admin functions
+- [x] 4.3 Test librarian functions
+- [x] 4.4 Test student functions
 
-## Phase 5: Data & Testing
-- [x] Create initial JSON data files in `data/`
-- [ ] Create sample data for testing
-- [ ] Create `tests/` - Unit tests for models and services
-
-## Phase 6: Documentation
-- [x] Complete README.md with project overview
-- [ ] Add installation and usage instructions to README

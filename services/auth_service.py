@@ -1,7 +1,8 @@
 """
 Authentication Service for the Library Management System.
 
-This module handles user registration, login, and authentication.
+This module handles user registration, login, and authentication
+with session management for role-based access control.
 """
 
 import sys
@@ -17,6 +18,11 @@ from utils.validators import validate_username, validate_password, validate_role
 # File paths
 USER_FILE = "data/users.json"
 
+# Session management - stores current logged in user
+_current_session = None
+
+
+# ==================== Password Hashing ====================
 
 def hash_password(password: str) -> str:
     """
@@ -31,6 +37,105 @@ def hash_password(password: str) -> str:
     import hashlib
     return hashlib.sha256(password.encode()).hexdigest()
 
+
+# ==================== Session Management ====================
+
+def get_current_user() -> Optional[Dict]:
+    """
+    Get the currently logged in user.
+    
+    Returns:
+        User dictionary if logged in, None otherwise
+    """
+    global _current_session
+    return _current_session
+
+
+def set_current_user(user: Optional[Dict]) -> None:
+    """
+    Set the current user session.
+    
+    Args:
+        user: User dictionary or None to logout
+    """
+    global _current_session
+    _current_session = user
+
+
+def is_logged_in() -> bool:
+    """
+    Check if a user is currently logged in.
+    
+    Returns:
+        True if logged in, False otherwise
+    """
+    return _current_session is not None
+
+
+def get_current_user_role() -> Optional[str]:
+    """
+    Get the role of the current logged in user.
+    
+    Returns:
+        Role string if logged in, None otherwise
+    """
+    if _current_session is None:
+        return None
+    return _current_session.get('role')
+
+
+def is_admin() -> bool:
+    """
+    Check if current user is an admin.
+    
+    Returns:
+        True if admin, False otherwise
+    """
+    return get_current_user_role() == 'admin'
+
+
+def is_librarian() -> bool:
+    """
+    Check if current user is a librarian or admin.
+    
+    Returns:
+        True if librarian or admin, False otherwise
+    """
+    role = get_current_user_role()
+    return role in ['admin', 'librarian']
+
+
+def is_student() -> bool:
+    """
+    Check if current user is a student.
+    
+    Returns:
+        True if student, False otherwise
+    """
+    return get_current_user_role() == 'student'
+
+
+def check_access(required_roles: list) -> tuple:
+    """
+    Check if current user has access based on their role.
+    
+    Args:
+        required_roles: List of roles that are allowed
+        
+    Returns:
+        Tuple of (has_access: bool, message: str)
+    """
+    if not is_logged_in():
+        return False, "Please login to access this feature."
+    
+    user_role = get_current_user_role()
+    if user_role not in required_roles:
+        return False, f"Access denied. Required roles: {', '.join(required_roles)}. Your role: {user_role}"
+    
+    return True, ""
+
+
+# ==================== User Registration ====================
 
 def register(username: str, password: str, role: str, email: str = "") -> Dict:
     """
@@ -78,9 +183,11 @@ def register(username: str, password: str, role: str, email: str = "") -> Dict:
     return {'success': True, 'message': 'User registered successfully'}
 
 
+# ==================== User Login ====================
+
 def login(username: str, password: str) -> Optional[Dict]:
     """
-    Authenticate a user.
+    Authenticate a user and start a session.
     
     Args:
         username: Username
@@ -89,18 +196,37 @@ def login(username: str, password: str) -> Optional[Dict]:
     Returns:
         User dictionary if successful, None otherwise
     """
+    global _current_session
+    
     users = load_data(USER_FILE)
     hashed_password = hash_password(password)
     
     for user in users:
         if user.get('username') == username and user.get('password') == hashed_password:
+            # Check if account is active
+            if not user.get('is_active', True):
+                return None
+            
             # Update last login
             user['last_login'] = datetime.now().isoformat()
             save_data(USER_FILE, users)
+            
+            # Set current session
+            _current_session = user
             return user
     
     return None
 
+
+def logout() -> None:
+    """
+    Logout the current user and clear the session.
+    """
+    global _current_session
+    _current_session = None
+
+
+# ==================== User Management ====================
 
 def get_user_by_username(username: str) -> Optional[Dict]:
     """
@@ -213,4 +339,105 @@ def get_all_users() -> list:
         List of user dictionaries
     """
     return load_data(USER_FILE)
+
+
+# ==================== User Role Management (Admin only) ====================
+
+def update_user_role(username: str, new_role: str, current_user: Optional[Dict]) -> Dict:
+    """
+    Update a user's role. Only admins can change roles.
+    
+    Args:
+        username: Username to update
+        new_role: New role to assign
+        current_user: The admin performing the action
+        
+    Returns:
+        Dictionary with success status and message
+    """
+    # Check if current user is admin
+    if current_user is None:
+        return {'success': False, 'message': 'Please login first.'}
+    
+    if current_user.get('role') != 'admin':
+        return {'success': False, 'message': 'Only admins can change user roles.'}
+    
+    # Validate role
+    valid, msg = validate_role(new_role)
+    if not valid:
+        return {'success': False, 'message': msg}
+    
+    # Update user role
+    users = load_data(USER_FILE)
+    
+    for user in users:
+        if user.get('username') == username:
+            old_role = user.get('role', 'unknown')
+            user['role'] = new_role
+            save_data(USER_FILE, users)
+            return {'success': True, 'message': f"Role changed from '{old_role}' to '{new_role}' for user '{username}'."}
+    
+    return {'success': False, 'message': f"User '{username}' not found."}
+
+
+def deactivate_user(username: str, current_user: Optional[Dict]) -> Dict:
+    """
+    Deactivate a user account. Only admins can do this.
+    
+    Args:
+        username: Username to deactivate
+        current_user: The admin performing the action
+        
+    Returns:
+        Dictionary with success status and message
+    """
+    if current_user is None:
+        return {'success': False, 'message': 'Please login first.'}
+    
+    if current_user.get('role') != 'admin':
+        return {'success': False, 'message': 'Only admins can deactivate users.'}
+    
+    users = load_data(USER_FILE)
+    
+    for user in users:
+        if user.get('username') == username:
+            if not user.get('is_active', True):
+                return {'success': False, 'message': 'User is already deactivated.'}
+            
+            user['is_active'] = False
+            save_data(USER_FILE, users)
+            return {'success': True, 'message': f"User '{username}' has been deactivated."}
+    
+    return {'success': False, 'message': f"User '{username}' not found."}
+
+
+def activate_user(username: str, current_user: Optional[Dict]) -> Dict:
+    """
+    Activate a user account. Only admins can do this.
+    
+    Args:
+        username: Username to activate
+        current_user: The admin performing the action
+        
+    Returns:
+        Dictionary with success status and message
+    """
+    if current_user is None:
+        return {'success': False, 'message': 'Please login first.'}
+    
+    if current_user.get('role') != 'admin':
+        return {'success': False, 'message': 'Only admins can activate users.'}
+    
+    users = load_data(USER_FILE)
+    
+    for user in users:
+        if user.get('username') == username:
+            if user.get('is_active', True):
+                return {'success': False, 'message': 'User is already active.'}
+            
+            user['is_active'] = True
+            save_data(USER_FILE, users)
+            return {'success': True, 'message': f"User '{username}' has been activated."}
+    
+    return {'success': False, 'message': f"User '{username}' not found."}
 
