@@ -1,2 +1,27 @@
-[]
-
+[
+    {
+        "username": "simon",
+        "isbn": "9780435905255",
+        "borrow_date": "2026-02-20",
+        "due_date": "2026-02-27"
+    },
+    {
+        "username": "Trinah",
+        "isbn": "9780007200283",
+        "borrow_date": "2026-02-21",
+        "due_date": "2026-02-28"
+    },
+    {
+        "username": "Donald",
+        "isbn": "9780954702335",
+        "borrow_date": "2026-02-22",
+        "due_date": "2026-03-01"
+    },
+    {
+        "user_name": "simon",
+        "book_title": "The River Between",
+        "borrow_date": "2026-02-28T18:32:28.046358",
+        "return_date": "2026-03-14T18:32:28.046358",
+        "isbn": "9780435905484"
+    }
+]
