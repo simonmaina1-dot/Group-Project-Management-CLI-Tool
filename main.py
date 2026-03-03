@@ -255,11 +255,21 @@ def handle_borrow_book(args):
         return
     
     # For students, they can only borrow for themselves
-    username = args.username
     if current_user.get('role') == 'student':
-        username = current_user.get('username')
+        username = str(current_user.get('username', ''))
+    else:
+        username = str(getattr(args, 'username', None) or current_user.get('username') or '')
     
-    result = borrow_book(username, args.isbn, current_user)
+    if not username:
+        print_error("Username is required.")
+        return
+    
+    isbn = str(getattr(args, 'isbn', None) or '')
+    if not isbn:
+        print_error("ISBN is required.")
+        return
+    
+    result = borrow_book(username, isbn, current_user)
     if result.get('success'):
         print_success(result.get('message'))
     else:
@@ -275,11 +285,21 @@ def handle_return_book(args):
         return
     
     # For students, they can only return their own books
-    username = args.username
     if current_user.get('role') == 'student':
-        username = current_user.get('username')
+        username = str(current_user.get('username', ''))
+    else:
+        username = str(getattr(args, 'username', None) or current_user.get('username') or '')
     
-    result = return_book(username, args.isbn, current_user)
+    if not username:
+        print_error("Username is required.")
+        return
+    
+    isbn = str(getattr(args, 'isbn', None) or '')
+    if not isbn:
+        print_error("ISBN is required.")
+        return
+    
+    result = return_book(username, isbn, current_user)
     if result.get('success'):
         print_success(result.get('message'))
     else:
@@ -295,6 +315,10 @@ def handle_my_borrows(args):
         return
     
     username = current_user.get('username')
+    if not username:
+        print_error("Unable to get username.")
+        return
+    
     books = get_borrowed_books(username, current_user)
     display_books(books, f"Books Borrowed by {username}")
 
