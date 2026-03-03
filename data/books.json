@@ -55,5 +55,16 @@
         "available_copies": 3,
         "borrowed_copies": 0,
         "borrowed_by": []
+    },
+    {
+        "title": "Python Basics",
+        "author": "John Smith",
+        "isbn": "9780134685991",
+        "total_copies": 5,
+        "available_copies": 5,
+        "borrowed_copies": 0,
+        "borrowed_by": [],
+        "added_by": "admin",
+        "added_at": "2026-03-03T18:13:47.853913"
     }
 ]

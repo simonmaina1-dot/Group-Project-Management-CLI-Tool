@@ -31,7 +31,7 @@
         "borrowed_books": [],
         "borrowing_history": [],
         "is_active": true,
-        "last_login": "2026-03-02T20:33:41.284834",
+        "last_login": "2026-03-03T16:25:02.251198",
         "created_at": "2026-03-02T17:48:17.843722"
     },
     {
@@ -68,5 +68,57 @@
         "is_active": true,
         "last_login": null,
         "created_at": "2026-02-28T20:54:53.071387"
+    },
+    {
+        "user_id": 1,
+        "username": "TM George",
+        "password": "b42010eb4b0b03c87462ceca2981ccc24af1c2ad6fa8ee303ffac093be2c7cee",
+        "role": "admin",
+        "email": "",
+        "name": "TM George",
+        "borrowed_books": [],
+        "borrowing_history": [],
+        "is_active": true,
+        "last_login": null,
+        "created_at": "2026-03-03T16:25:41.392185"
+    },
+    {
+        "user_id": 1,
+        "username": "admin",
+        "password": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
+        "role": "admin",
+        "email": "",
+        "name": "admin",
+        "borrowed_books": [],
+        "borrowing_history": [],
+        "is_active": true,
+        "last_login": "2026-03-03T18:13:47.853180",
+        "created_at": "2026-03-03T18:13:03.391270"
+    },
+    {
+        "user_id": 1,
+        "username": "librarian",
+        "password": "6518454a49ab2912238b510b2221f0fc1ce404986d3fb94bb34311ff6069d467",
+        "role": "librarian",
+        "email": "",
+        "name": "librarian",
+        "borrowed_books": [],
+        "borrowing_history": [],
+        "is_active": true,
+        "last_login": "2026-03-03T18:14:08.487356",
+        "created_at": "2026-03-03T18:13:10.936056"
+    },
+    {
+        "user_id": 1,
+        "username": "student",
+        "password": "c079b93d71c13c8b44e0d8e55abbdf1fe006e01f67a8b95c45500fb0df3598f8",
+        "role": "student",
+        "email": "",
+        "name": "student",
+        "borrowed_books": [],
+        "borrowing_history": [],
+        "is_active": true,
+        "last_login": "2026-03-03T18:14:18.900511",
+        "created_at": "2026-03-03T18:13:10.987483"
     }
 ]
